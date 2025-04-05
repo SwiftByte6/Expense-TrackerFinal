@@ -1,27 +1,71 @@
 import React,{useState,useEffect} from "react";
 
-import {Form, Modal} from 'antd';
+import {Form, Modal, Table} from 'antd';
 import { Input, Select } from "antd";
 import axios from "axios";
 import Layout from "./../components/Layout/Layout";
 import { Button } from "antd";
 import { message } from "antd";
 import Spinner from "./../components/Spinner";
+
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 const HomePage = () => {
    const[loading,setLoading] = useState(false);
   const [showModal,setShowModal] = useState(false);
+const [allTransaction , setAllTransaction ]= useState([]);
+//table data
+const columns =[
+{
+  title:'Date',
+  dataIndex:'date',
 
-  ///get all transactions
+},
+{
+  title:'Amount',
+  dataIndex:'amount',
+
+},
+{
+  title:'Type',
+  dataIndex:'type',
+
+},
+{
+  title:'Category',
+  dataIndex:'category',
+
+},
+{
+  title:'Reference',
+  dataIndex:'reference',
+
+},
+{
+  title:'Actions',
+  // dataIndex:'reference',
+
+},
+]
+
+
+///get all transactions
   const getAllTransactions = async()=>{
     try{
       const user = JSON.parse(localStorage.getItem('user'));
       setLoading(true);
-      await axios.post('/transaction/get-transaction',{userid:user._id});
+      const res =await axios.post('/transaction/get-transaction',{userid:user._id});
+      setLoading(false);
+      setAllTransaction(res.data);
+      console.log(res.data);
     }catch(error){
-
+      console.log(error);
+      message.error('Error in getting transactions');
     }
-  }
+  };
+  //useeffect hok
+  useEffect(()=>{
+getAllTransactions();
+  },[])
 
 
 
@@ -56,7 +100,9 @@ const HomePage = () => {
           </div>
         </div>
       </h3>
-      <div className="content"> </div>
+      <div className="content"> 
+        <Table columns = {columns} dataSource={allTransaction}/>
+      </div>
         <Modal title="Add Transaction" open={showModal} onCancel={()=>setShowModal(false)} footer={false}>
           <Form layout="vertical" onFinish={handleSubmit}>
             <Form.Item label="Amount in ₹" name="amount">
