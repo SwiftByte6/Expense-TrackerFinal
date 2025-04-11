@@ -1,16 +1,25 @@
 import React, { PureComponent } from "react";
 import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
 
-const data = [
-  { name: "Group A", value: 400, color: "#ff5733" },
-  { name: "Group B", value: 300, color: "#33ff57" },
-  { name: "Group C", value: 300, color: "#3357ff" },
-  { name: "Group D", value: 200, color: "#ff33a8" },
-];
+// Helper: Generate vibrant color
+const getRandomColor = () =>
+  `hsl(${Math.floor(Math.random() * 360)}, 80%, 60%)`;
 
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
-  const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
+  const {
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    startAngle,
+    endAngle,
+    fill,
+    payload,
+    percent,
+    value,
+  } = props;
   const sin = Math.sin(-RADIAN * midAngle);
   const cos = Math.cos(-RADIAN * midAngle);
   const sx = cx + (outerRadius + 10) * cos;
@@ -45,27 +54,43 @@ export default class PieChartComponent extends PureComponent {
     this.setState({ activeIndex: index });
   };
 
+  getProcessedData = () => {
+    const { expenses = [] } = this.props;
+
+    const grouped = {};
+
+    expenses.forEach(({ category, amount }) => {
+      if (!grouped[category]) {
+        grouped[category] = { name: category, value: 0, color: getRandomColor() };
+      }
+      grouped[category].value += amount;
+    });
+
+    return Object.values(grouped);
+  };
+
   render() {
+    const processedData = this.getProcessedData();
+    const chartHeight = window.innerWidth < 768 ? 300 : 450;
+    const innerR = window.innerWidth < 768 ? 30 : 50;
+    const outerR = window.innerWidth < 768 ? 80 : 120;
+
     return (
       <div className="w-full flex justify-center items-center">
-        <ResponsiveContainer width="100%" height={window.innerWidth < 768 ? 300 : 450}>
+        <ResponsiveContainer width="100%" height={chartHeight}>
           <PieChart>
             <Pie
               activeIndex={this.state.activeIndex}
               activeShape={renderActiveShape}
-              data={data}
+              data={processedData}
               cx="50%"
               cy="50%"
-              innerRadius={window.innerWidth < 768 ? 30 : 50}
-              outerRadius={window.innerWidth < 768 ? 80 : 120}
+              innerRadius={innerR}
+              outerRadius={outerR}
               fill="#8884d8"
               dataKey="value"
               onMouseEnter={this.onPieEnter}
-            >
-              {data.map((entry, index) => (
-                <Sector key={`sector-${index}`} fill={entry.color} />
-              ))}
-            </Pie>
+            />
           </PieChart>
         </ResponsiveContainer>
       </div>

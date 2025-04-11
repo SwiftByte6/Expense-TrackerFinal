@@ -1,8 +1,12 @@
-import React from "react";
+// Dashboard.jsx or Main.jsx
+import React, { useContext } from "react";
+import { TransactionContext } from "../contexts/TransactionContext";
 import Main from "../components/Main";
 
 const Dashboard = () => {
-  return <Main />; // Dashboard loads Main by default
+  const { transactions, loading } = useContext(TransactionContext);
+
+  return <Main transactions={transactions} loading={loading} />;
 };
 
 export default Dashboard;

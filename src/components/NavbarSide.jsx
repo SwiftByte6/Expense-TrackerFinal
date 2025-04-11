@@ -1,7 +1,20 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const NavbarSide = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
+  const menuItems = [
+    { to: "/", icon: "fa-tachometer-alt", color: "text-blue-500", label: "Dashboard" },
+    { to: "/expense", icon: "fa-money-bill-wave", color: "text-yellow-500", label: "Expense" },
+    { to: "/create-expense", icon: "fa-plus", color: "text-green-500", label: "Create Expense" },
+  ];
+
   return (
     <div className="bg-white min-h-screen md:w-[18vw] p-4 shadow-2xl w-[40px] hidden md:block">
       <h1 className="font-bold text-lg md:text-2xl lg:text-3xl hidden md:block">
@@ -22,16 +35,9 @@ const NavbarSide = () => {
 
       {/* Menu Items */}
       <div className="menu-items w-full mt-4 border-t border-gray-300">
-        <h2 className="text-gray-300 text-sm md:text-base lg:text-lg md:mt-2">
-          Main
-        </h2>
+        <h2 className="text-gray-300 text-sm md:text-base lg:text-lg md:mt-2">Main</h2>
         <ul>
-          {[
-            { to: "/", icon: "fa-tachometer-alt", color: "text-blue-500", label: "Dashboard" },
-            { to: "/expense", icon: "fa-money-bill-wave", color: "text-yellow-500", label: "Expense" },
-            { to: "/create-expense", icon: "fa-plus", color: "text-green-500", label: "Create Expense" },
-            { to: "/ai", icon: "fa-robot", color: "text-purple-500", label: "AI" },
-          ].map((item, index) => (
+          {menuItems.map((item, index) => (
             <li key={index} className="text-lg md:text-xl lg:text-2xl mt-6 md:mt-3">
               <NavLink
                 to={item.to}
@@ -46,6 +52,17 @@ const NavbarSide = () => {
               </NavLink>
             </li>
           ))}
+
+          {/* Logout as a Menu Item */}
+          <li className="text-lg md:text-xl lg:text-2xl mt-6 md:mt-3">
+            <button
+              onClick={handleLogout}
+              className="w-full md:p-3 lg:p-4 rounded-2xl flex items-center gap-3 hover:bg-red-100 text-red-600 hover:text-red-700 transition"
+            >
+              <i className="fas fa-sign-out-alt text-base md:text-lg lg:text-xl"></i>
+              <span className="text-sm md:text-base lg:text-lg">Logout</span>
+            </button>
+          </li>
         </ul>
       </div>
     </div>

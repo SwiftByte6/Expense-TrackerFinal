@@ -9,6 +9,11 @@ const NavbarTop = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("userid");
+    window.location.href = "";
+  };
+  
   return (
     <div className="relative">
       {/* Top Navbar */}
@@ -74,7 +79,18 @@ const NavbarTop = () => {
                       <span>{item.label}</span>
                     </NavLink>
                   </li>
+                  
+
                 ))}
+                 <li className="text-lg md:text-xl lg:text-2xl mt-6 md:mt-3">
+            <button
+              onClick={handleLogout}
+              className="w-full md:p-3 lg:p-4 rounded-2xl flex items-center gap-3 hover:bg-red-100 text-red-600 hover:text-red-700 transition"
+            >
+              <i className="fas fa-sign-out-alt text-base md:text-lg lg:text-xl"></i>
+              <span className="text-sm md:text-base lg:text-lg">Logout</span>
+            </button>
+          </li>
               </ul>
             </div>
           </motion.div>
