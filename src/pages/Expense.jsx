@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import BarChart from '../components/BardChart';
 import RectangleGraph from '../components/RectangleGraph';
 import ItemLIst from '../components/ItemLIst';
-import { TransactionContext } from '../contexts/TransactionContext'; // Assuming you use context
+import { TransactionContext } from '../contexts/TransactionContext'; // Assuming you use context// Assuming you use context
 
 const Expense = () => {
   const [ispopUp, setIspopUP] = useState(false);
@@ -30,30 +30,30 @@ const Expense = () => {
   }, [transactions, selectedCategory]);
 
   return (
-    <div className='relative'>
-    {ispopUp && (
-  <div className="fixed inset-0 bg-black bg-opacity-40 z-[1000] flex items-center justify-center px-4">
-<div className="relative w-full max-w-5xl bg-white rounded-xl shadow-2xl overflow-y-auto max-h-[90vh] p-5 sm:p-8 md:p-10">
-      
-      {/* Top Bar */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Items List</h1>
-        <button
-          onClick={() => setIspopUP(false)}
-          className="text-gray-600 hover:text-red-500 text-lg font-medium transition"
-        >
-          <i className="fa-solid fa-xmark text-2xl"></i>
-        </button>
-      </div>
+    <div className="relative w-full flex-1">
+      {/* Popup for Item List */}
+      {ispopUp && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 z-[1000] flex items-center justify-center px-4">
+          <div className="relative w-full max-w-5xl bg-white rounded-xl shadow-2xl overflow-y-auto max-h-[90vh] p-5 sm:p-8 md:p-10">
+            {/* Top Bar */}
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Items List</h1>
+              <button
+                onClick={() => setIspopUP(false)}
+                className="text-gray-600 hover:text-red-500 text-lg font-medium transition"
+              >
+                <i className="fa-solid fa-xmark text-2xl"></i>
+              </button>
+            </div>
 
-      {/* Item List */}
-      <ItemLIst />
-    </div>
-  </div>
-)}
+            {/* Item List */}
+            <ItemLIst />
+          </div>
+        </div>
+      )}
 
-
-<div className="min-h-screen w-full px-4 py-6 flex flex-col items-center space-y-8 md:space-y-10">
+      {/* Main content area */}
+      <div className="min-h-screen w-full px-4 py-6 flex flex-col items-center space-y-8 md:space-y-10">
         {/* Line Chart */}
         <motion.div
           className="bg-white w-full mt-13 md:mt-0 max-w-screen-xl shadow-lg md:p-4 rounded-2xl overflow-hidden"
@@ -72,9 +72,14 @@ const Expense = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
           >
-            <div className='flex justify-between'>
+            <div className="flex justify-between">
               <h1 className="font-bold text-2xl md:text-3xl mb-4">List of Expenses</h1>
-              <span className='text-2xl md:text-3xl underline cursor-pointer' onClick={() => setIspopUP(true)}>see all</span>
+              <span
+                className="text-2xl md:text-3xl underline cursor-pointer"
+                onClick={() => setIspopUP(true)}
+              >
+                see all
+              </span>
             </div>
             {loading ? (
               <p>Loading...</p>
@@ -91,6 +96,7 @@ const Expense = () => {
             )}
           </motion.div>
 
+          {/* Doughnut Chart */}
           <motion.div
             className="bg-white w-full h-[250px] md:h-[55vh] p-4 rounded-2xl shadow-lg flex items-center justify-center overflow-hidden"
             initial={{ opacity: 0, scale: 0.9 }}

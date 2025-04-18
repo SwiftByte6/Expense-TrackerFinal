@@ -1,19 +1,28 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom"; // Import the navigate hook from React Router
 
 const NavbarTop = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate(); // Initialize the navigate function
+
+  // Sample menu items (replace with your actual menu items)
+  const menuItems = [
+    { to: "/", icon: "fa-tachometer-alt", color: "text-blue-500", label: "Dashboard" },
+    { to: "/expense", icon: "fa-money-bill-wave", color: "text-yellow-500", label: "Expense" },
+    { to: "/create-expense", icon: "fa-plus", color: "text-green-500", label: "Create Expense" },
+  
+  ];
 
   const handleNav = () => {
     setIsOpen(!isOpen);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("userid");
-    window.location.href = "";
+    localStorage.removeItem("user");
+    navigate("/login");
   };
-  
+
   return (
     <div className="relative">
       {/* Top Navbar */}
@@ -28,21 +37,13 @@ const NavbarTop = () => {
         </div>
       </nav>
 
-      {/* Main Content */}
-      <div className={`transition-all duration-300 ${isOpen ? "blur-sm pointer-events-none" : ""}`}>
-        {/* <main className="pt-[10vh] p-5">
-          <h2 className="text-2xl font-semibold">Welcome to the Expense Tracker!</h2>
-          <p className="mt-3 text-gray-600">Manage your expenses efficiently and track your financial goals.</p>
-        </main> */}
-      </div>
-
       {/* Sidebar & Overlay */}
       {isOpen && (
         <>
-          {/* Overlay - Covers the entire screen */}
+          {/* Overlay */}
           <div
             className="fixed inset-0 bg-black bg-opacity-50 z-40"
-            onClick={handleNav} // Clicking outside closes menu
+            onClick={handleNav}
           ></div>
 
           {/* Sidebar Menu */}
@@ -55,23 +56,16 @@ const NavbarTop = () => {
           >
             <h1 className="font-bold text-3xl mb-5">Menu</h1>
 
-            {/* Menu Items */}
             <div className="menu-items w-full mt-4 border-t border-gray-300">
               <h2 className="text-gray-500 text-lg mt-2">Main</h2>
               <ul>
-                {[
-                  { to: "/", icon: "fa-tachometer-alt", color: "text-blue-500", label: "Dashboard" },
-                  { to: "/expense", icon: "fa-money-bill-wave", color: "text-yellow-500", label: "Expense" },
-                  { to: "/create-expense", icon: "fa-plus", color: "text-green-500", label: "Create Expense" },
-                  { to: "/ai", icon: "fa-robot", color: "text-purple-500", label: "AI" },
-                ].map((item, index) => (
+                {/* Render menu items */}
+                {menuItems.map((item, index) => (
                   <li key={index} className="text-lg mt-5">
                     <NavLink
                       to={item.to}
                       className={({ isActive }) =>
-                        `p-3 rounded-lg flex items-center gap-3 ${
-                          isActive ? "bg-blue-200 text-blue-500" : "hover:bg-blue-200 hover:text-blue-500"
-                        }`
+                        `p-3 rounded-lg flex items-center gap-3 ${isActive ? "bg-blue-200 text-blue-500" : "hover:bg-blue-200 hover:text-blue-500"}`
                       }
                       onClick={() => setIsOpen(false)} // Close menu on click
                     >
@@ -79,18 +73,19 @@ const NavbarTop = () => {
                       <span>{item.label}</span>
                     </NavLink>
                   </li>
-                  
-
                 ))}
-                 <li className="text-lg md:text-xl lg:text-2xl mt-6 md:mt-3">
-            <button
+
+                {/* Logout Button */}
+                <li className="text-lg md:text-xl lg:text-2xl mt-6 md:mt-3">
+                <button
+              type="button"
               onClick={handleLogout}
               className="w-full md:p-3 lg:p-4 rounded-2xl flex items-center gap-3 hover:bg-red-100 text-red-600 hover:text-red-700 transition"
             >
               <i className="fas fa-sign-out-alt text-base md:text-lg lg:text-xl"></i>
               <span className="text-sm md:text-base lg:text-lg">Logout</span>
             </button>
-          </li>
+                </li>
               </ul>
             </div>
           </motion.div>

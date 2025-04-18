@@ -6,7 +6,7 @@ import CustomCursor from "./components/CustomCursor";
 import Dashboard from "./pages/Dashboard";
 import Expense from "./pages/Expense";
 import CreateExpense from "./pages/CreateExpense";
-import Login from "./components/Login";
+import Login from "./components/Login"; // Import Login component
 import { TransactionProvider } from "./contexts/TransactionContext"; // ✅ Import your context
 
 const App = () => {
@@ -15,7 +15,7 @@ const App = () => {
   return (
     <TransactionProvider>
       <Router>
-        <CustomCursor />
+        {/* <CustomCursor /> */}
         {user ? (
           <div className="flex bg-gray-300 min-h-screen ">
             <NavbarSide />
@@ -24,13 +24,16 @@ const App = () => {
               <Route path="/" element={<Dashboard />} />
               <Route path="/expense" element={<Expense />} />
               <Route path="/create-expense" element={<CreateExpense />} />
+              {/* Make sure /login route is NOT in this block */}
             </Routes>
           </div>
-         ) : (
+        ) : (
           <Routes>
-             <Route path="*" element={<Login />} />
-         </Routes>
-         )}
+            <Route path="/login" element={<Login />} />
+            {/* Catch-all route for login */}
+            <Route path="*" element={<Login />} />
+          </Routes>
+        )}
       </Router>
     </TransactionProvider>
   );

@@ -12,11 +12,11 @@ export const TransactionProvider = ({ children }) => {
   const fetchTransactions = async () => {
     try {
       const userid = localStorage.getItem('userid');
-      console.log("Fetching transactions for userid:", userid);
+      // console.log("Fetching transactions for userid:", userid);
 
       const res = await axios.post('/transaction/get-transaction', { userid });
   
-      console.log("Fetched Transactions Response:", res); // 👈 Check response here
+      // console.log("Fetched Transactions Response:", res); // 👈 Check response here
   
       setTransactions(res.data);
     } catch (error) {

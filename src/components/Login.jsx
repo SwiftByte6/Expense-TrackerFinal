@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from '../utils/axios'; // adjust the path if needed
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // Add useNavigate for redirection
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -26,15 +28,12 @@ const Login = () => {
           password: form.password,
         });
         localStorage.setItem("user", JSON.stringify(res.data.user));
-localStorage.setItem("userid", res.data.user._id);
-
-        // localStorage.setItem("user", JSON.stringify(res.data.newUser));
-        // localStorage.setItem("userid", res.data.newUser._id); // ✅ Add this!
-       
-
-        
+        localStorage.setItem("userid", res.data.user._id);
       }
-      window.location.reload(); // Refresh to trigger auth check
+
+      // Refresh the page after successful login
+      window.location.reload(); // This will refresh the page after login
+
     } catch (err) {
       setError(
         err?.response?.data?.message ||
@@ -48,7 +47,6 @@ localStorage.setItem("userid", res.data.user._id);
   return (
     <div className='w-screen h-screen bg-gray-300 flex justify-center items-center p-4'>
       <div className='bg-white shadow-2xl rounded-3xl w-full max-w-md p-6 text-center'>
-
         {/* Toggle Buttons */}
         <div className="flex justify-center mb-6">
           <button

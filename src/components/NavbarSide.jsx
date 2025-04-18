@@ -42,8 +42,7 @@ const NavbarSide = () => {
               <NavLink
                 to={item.to}
                 className={({ isActive }) =>
-                  `md:p-3 lg:p-4 rounded-2xl flex items-center gap-3 ${
-                    isActive ? "bg-blue-200 text-blue-500" : "hover:bg-blue-200 hover:text-blue-500"
+                  `md:p-3 lg:p-4 rounded-2xl flex items-center gap-3 ${isActive ? "bg-blue-200 text-blue-500" : "hover:bg-blue-200 hover:text-blue-500"
                   }`
                 }
               >
@@ -55,13 +54,23 @@ const NavbarSide = () => {
 
           {/* Logout as a Menu Item */}
           <li className="text-lg md:text-xl lg:text-2xl mt-6 md:mt-3">
+            {/* <button
+              onClick={handleLogout}
+              className="w-full md:p-3 lg:p-4 rounded-2xl flex items-center gap-3 hover:bg-red-100 text-red-600 hover:text-red-700 transition"
+            >
+              <i className="fas fa-sign-out-alt text-base md:text-lg lg:text-xl"></i>
+              <span className="text-sm md:text-base lg:text-lg">Logout</span>
+            </button> */}
             <button
+              type="button"
               onClick={handleLogout}
               className="w-full md:p-3 lg:p-4 rounded-2xl flex items-center gap-3 hover:bg-red-100 text-red-600 hover:text-red-700 transition"
             >
               <i className="fas fa-sign-out-alt text-base md:text-lg lg:text-xl"></i>
               <span className="text-sm md:text-base lg:text-lg">Logout</span>
             </button>
+
+
           </li>
         </ul>
       </div>
